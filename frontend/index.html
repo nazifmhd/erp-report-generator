@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ERP AI Report Generator</title>
+
+  <!-- Tailwind CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet" />
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- jsPDF CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    let chartInstance = null;
+
+    async function generateReport() {
+      const region = document.getElementById('regionFilter').value;
+      const category = document.getElementById('categoryFilter').value;
+
+      const url = `http://127.0.0.1:8000/generate-report?region=${region}&category=${category}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      // Display report
+      const reportText = data.report || "No report data available.";
+      document.getElementById('report').innerText = reportText;
+
+      // Generate Chart
+      if (data.sales_data) {
+        generateChart(data.sales_data.labels, data.sales_data.data);
+      }
+    }
+
+    function generateChart(labels, data) {
+      const ctx = document.getElementById('salesChart').getContext('2d');
+
+      // Destroy old chart if exists
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+
+      chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Sales by Product',
+            data: data,
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    function exportToPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const reportContent = document.getElementById('report').innerText;
+      if (!reportContent.trim()) {
+        alert("Please generate the report first.");
+        return;
+      }
+
+      const lines = doc.splitTextToSize(reportContent, 180); // wrap text width
+      doc.text(lines, 10, 10);
+      doc.save("erp-report.pdf");
+    }
+  </script>
+</head>
+<body class="p-6 bg-gray-100">
+  <div class="container mx-auto">
+    <h1 class="text-3xl font-bold text-center mb-6">ERP AI Report Generator</h1>
+
+    <!-- Filters -->
+    <div class="mb-4 flex justify-center space-x-4">
+      <div>
+        <label for="regionFilter" class="block font-medium">Select Region:</label>
+        <select id="regionFilter" class="border p-2 rounded-md">
+          <option value="East">East</option>
+          <option value="West">West</option>
+          <option value="North">North</option>
+          <option value="South">South</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="categoryFilter" class="block font-medium">Select Category:</label>
+        <select id="categoryFilter" class="border p-2 rounded-md">
+          <option value="Furniture">Furniture</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Clothing">Clothing</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="mb-6 flex justify-center space-x-4">
+      <button onclick="generateReport()" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Generate Report</button>
+      <button onclick="exportToPDF()" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Export as PDF</button>
+    </div>
+
+    <!-- Report Output -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+      <h2 class="text-2xl font-semibold">Generated Report:</h2>
+      <pre id="report" class="mt-4 text-gray-800 whitespace-pre-wrap"></pre>
+    </div>
+
+    <!-- Chart Output -->
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-semibold">Sales Overview</h2>
+      <canvas id="salesChart" class="mt-4"></canvas>
+    </div>
+  </div>
+</body>
+</html>

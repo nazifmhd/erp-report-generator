@@ -1,0 +1,31 @@
+Date,Product Name,Units Sold,Revenue,Inventory Level,Category,Region
+2025-03-01,Office Chair,120,3600,18,Furniture,East
+2025-03-01,Desk,90,5400,10,Furniture,East
+2025-03-01,Monitor,50,7500,25,Electronics,North
+2025-03-01,Keyboard,200,4000,40,Electronics,South
+2025-03-01,Mouse,180,1800,35,Electronics,South
+2025-03-01,Notebook,300,1500,60,Stationery,West
+2025-03-01,Pen,500,1000,100,Stationery,West
+2025-03-01,Printer,20,4000,5,Electronics,North
+2025-03-01,Laptop Stand,60,1800,8,Accessories,East
+2025-03-01,Whiteboard,25,1250,12,Furniture,North
+2025-04-01,Office Chair,140,4200,12,Furniture,East
+2025-04-01,Desk,80,4800,6,Furniture,East
+2025-04-01,Monitor,70,10500,20,Electronics,North
+2025-04-01,Keyboard,220,4400,30,Electronics,South
+2025-04-01,Mouse,200,2000,28,Electronics,South
+2025-04-01,Notebook,320,1600,55,Stationery,West
+2025-04-01,Pen,550,1100,90,Stationery,West
+2025-04-01,Printer,30,6000,3,Electronics,North
+2025-04-01,Laptop Stand,80,2400,4,Accessories,East
+2025-04-01,Whiteboard,30,1500,10,Furniture,North
+2025-05-01,Office Chair,130,3900,7,Furniture,East
+2025-05-01,Desk,95,5700,5,Furniture,East
+2025-05-01,Monitor,60,9000,10,Electronics,North
+2025-05-01,Keyboard,210,4200,20,Electronics,South
+2025-05-01,Mouse,170,1700,18,Electronics,South
+2025-05-01,Notebook,310,1550,40,Stationery,West
+2025-05-01,Pen,520,1040,80,Stationery,West
+2025-05-01,Printer,25,5000,2,Electronics,North
+2025-05-01,Laptop Stand,70,2100,3,Accessories,East
+2025-05-01,Whiteboard,20,1000,8,Furniture,North
