@@ -18,16 +18,23 @@ Generate a short business report using the following data:
 - Top-selling product: {insights['top_product']}
 - Low inventory products: {', '.join(insights['low_inventory']) or 'None'}
 
-Make the report professional and concise.
+Make the report professional and concise. Include the following sections:
+1. Summary of key findings
+2. Revenue analysis
+3. Product performance
+4. Inventory status
+5. Conclusion with actionable recommendations
+
+The conclusion should summarize the overall business performance and provide 2-3 specific recommendations.
 """
 
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are a business analyst."},
+            {"role": "system", "content": "You are a business analyst who creates comprehensive reports with clear conclusions and actionable recommendations."},
             {"role": "user", "content": prompt}
         ],
-        max_tokens=200
+        max_tokens=350  # Increased from 200 to ensure conclusion fits
     )
 
     return response.choices[0].message.content
